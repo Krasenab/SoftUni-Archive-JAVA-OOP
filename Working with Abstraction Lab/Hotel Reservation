@@ -1,0 +1,120 @@
+import java.util.Scanner;
+
+public class Main
+{
+	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
+	    String[] arrayInput = sc.nextLine().split(" ");
+		CommandHeandler c = new CommandHeandler(arrayInput);
+		String s = String.format("%.2f",c.Start());
+		System.out.println(s);
+	}
+}
+enum Seson{
+    
+    AUTUMN(1),
+    SPRING(2),
+    WINTER(3),
+    SUMMER(4);
+    
+    private final int multiplier;
+    
+    private Seson(int multiplier)
+    {
+        this.multiplier = multiplier;
+    }
+    
+    
+    
+    public int getMultiplier() {
+        return multiplier;
+    }
+}
+enum Discount{
+    
+    VIP(20),
+    SECONDVISIT(10),
+    NONE(0);
+    private final double discountPracent;
+    private Discount(double discount)
+    {
+        this.discountPracent = discount;
+    }
+    
+    public double getDiscount()
+    {
+        return discountPracent;
+    }
+    
+}
+class PriceCalculator extends Calculator{
+    private Seson seson;
+    private Discount discount;
+    private int days;
+    private double pricePerDay;
+    
+    public PriceCalculator()
+    {
+        
+    }
+    public PriceCalculator(double pricePerDay,int days,String seson,String discount)
+    {
+        this.pricePerDay = pricePerDay;
+        this.days = days;
+        this.seson = Seson.valueOf(seson);
+        this.discount = Discount.valueOf(discount);
+        
+    }
+    public double Calculate()
+    {
+        int sesonMult = seson.getMultiplier();
+       
+       double result = pricePerDay * days * sesonMult;
+      
+       double finalResult = result - (result * (discount.getDiscount() / 100));
+       
+       
+       
+        return finalResult;
+    }
+}
+abstract class Calculator{
+    
+    public Calculator()
+    {
+        
+    } 
+    
+    public abstract double Calculate();
+    
+    
+}
+
+class CommandHeandler{
+    
+    private String[] inputArr;
+    
+    public CommandHeandler(String[] input)
+    {
+        this.inputArr = input;
+    }
+    
+    
+    public double Start()
+    {
+       
+        double inputPrice = Double.parseDouble(inputArr[0]);
+        int days =Integer.parseInt(inputArr[1]);
+        
+        String sesone = inputArr[2].toUpperCase();
+        String discountType = inputArr[3].toUpperCase();
+        
+        PriceCalculator pC = new PriceCalculator(inputPrice,days,sesone,discountType);
+        double r = pC.Calculate();
+
+
+      return  r;
+       
+    }
+}
