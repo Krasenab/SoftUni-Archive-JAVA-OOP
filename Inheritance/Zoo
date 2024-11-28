@@ -1,0 +1,95 @@
+/******************************************************************************
+
+                            Online Java Compiler.
+                Code, Compile, Run and Debug java program online.
+Write your code in this editor and press "Run" button to execute it.
+
+*******************************************************************************/
+
+public class Main
+{
+	public static void main(String[] args) {
+		Lizerd l = new Lizerd("this is Lizerd");
+		System.out.println(l.getName());
+		Repitle r = new Repitle("Repitle from Animal");
+		System.out.println(r.getName());
+		
+	}
+}
+
+
+
+
+class Repitle extends Animal{
+    
+    public Repitle(String name)
+    {
+        super(name);
+    }
+}
+class Lizerd extends Repitle{
+    
+    public Lizerd(String name)
+    {
+        super(name);
+    }
+    
+}
+
+
+class Snake extends Repitle{
+    
+    public Snake(String name)
+    {
+        super(name);
+    }
+
+}
+class Mammal extends Animal{
+    public Mammal(String name)
+    {
+        super(name);
+    }
+    
+    
+}
+class Gorila extends Mammal{
+    
+    public Gorila(String name){
+        
+        super(name);
+    }
+}
+
+class Bear extends Mammal{
+    
+    
+    public Bear(String name)
+    {
+        super(name);
+    }
+}
+
+abstract class Animal
+{
+    
+    String name;
+    public Animal (String name)
+    {
+        this.setName(name);
+    }
+    
+    public String getName()
+    {
+        return this.name;
+    }
+    
+
+   public void setName(String name)
+   {
+       this.name = name;
+   }
+    
+ }
+
+
