@@ -1,3 +1,4 @@
+import java.awt.TextComponent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,7 +21,7 @@ public class Program {
 		
 		int n = Integer.parseInt(bfR.readLine());
 		
-		for(int a = 0;n>=a;a++) 
+		for(int a = 0;n>a;a++) 
 		{
 			String[] commands = bfR.readLine().split(" ");
 			String action = commands[0];
@@ -33,7 +34,7 @@ public class Program {
 				
 				}
 				else {
-					System.out.println("I am in else conditon etc. REFEUL");
+					//System.out.println("I am in else conditon etc. REFEUL");
 					c.refuel(Double.parseDouble(commands[2]));
 				}
 			}
@@ -52,8 +53,8 @@ public class Program {
 			
 		}
 		
-		System.out.println("Car: "+c.getFuelQuantity());
-		System.out.println("Truck: "+t.getFuelQuantity());
+		System.out.println("Car: "+ (double) Math.round(c.getFuelQuantity()*100)/100);
+		System.out.println("Truck: "+(double)Math.round(t.getFuelQuantity()*100)/100);
 		
 	}
 
