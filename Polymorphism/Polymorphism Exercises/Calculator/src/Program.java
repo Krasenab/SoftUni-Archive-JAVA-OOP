@@ -2,17 +2,53 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import simpleCalculator.CalculationEngine;
+import simpleCalculator.InputInterpreter;
+
 public class Program {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
+			
+	    Scanner scanner = new Scanner(System.in);
+        CalculationEngine engine = new CalculationEngine();
+        InputInterpreter interpreter = new InputInterpreter(engine);
+
+        while (true) {
+            String input = scanner.nextLine();
+            if (!interpreter.interpret(input)) {
+                break; 
+            }
+        }
+
+    }
+	
+
+	// i make this method cuz if i use Charachter.isDigit() i cannot check when number is more then two digit ( 12, 123, 4321)  input 1sd1 this is not number
+	public static boolean isNum(String numberAsStr) 
+	{
+		try {
+			Double.parseDouble(numberAsStr);
+			return true;
+			
+		}catch(NumberFormatException e){
+			
+			return false;
+			
+		}
+		
+	}
+
+	
+	
+	public static void InOnePlaceSolution() 
+	{
 		Scanner sc = new Scanner(System.in); 
 		double currentCalculation = -1;
 		String operation = "";
-		double finalResult = -1;
+		//double finalResult = -1;
 		List<Double> calculatoinMemory = new ArrayList<>();
-		int currentMr = -1;
+	
 		
 			while(true) 
 			{
@@ -39,7 +75,7 @@ public class Program {
 							{
 								
 								currentCalculation *= n;
-								finalResult = currentCalculation;
+								
 							}
 							if(operation.equals("/")) 
 							{
@@ -78,22 +114,7 @@ public class Program {
 					
 				}
 			}
-			
-			
-
-    }
-	// i make this method cuz if i use Charachter.isDigit() i cannot check when number is more then two digit ( 12, 123, 4321)  input 1sd1 this is not number
-	public static boolean isNum(String numberAsStr) 
-	{
-		try {
-			Double.parseDouble(numberAsStr);
-			return true;
-			
-		}catch(NumberFormatException e){
-			
-			return false;
-			
-		}
-		
 	}
+	
+	
 }
