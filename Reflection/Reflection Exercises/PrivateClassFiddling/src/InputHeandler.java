@@ -74,7 +74,7 @@ public class InputHeandler {
 		}
 		
 	}
-	public void getReflectionIstance() throws Exception 
+	private void getReflectionIstance() throws Exception 
 	{
 		classReflection = Class.forName("BlackBoxInt");
 		Constructor<?> ctorArr = classReflection.getDeclaredConstructor();
@@ -84,7 +84,7 @@ public class InputHeandler {
 		
 	}
 	
-	public Object getReflectionObjectFiledAndFiledValue() throws Exception, Exception 
+	private Object getReflectionObjectFiledAndFiledValue() throws Exception, Exception 
 	{
 		Field f = classReflection.getDeclaredField("innerValue");
 		f.setAccessible(true);
