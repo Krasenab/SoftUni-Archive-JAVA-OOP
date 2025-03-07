@@ -2,11 +2,21 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
 
+import globalConstants.TypesOfComponentsAndPer;
 import interfacesOnlineShop.Controller;
+import onlineShop.CentralProcessingUnit;
+import onlineShop.Component;
 import onlineShop.Computer;
 import onlineShop.DesktopComputer;
 import onlineShop.Laptop;
+import onlineShop.Motherboard;
+import onlineShop.PowerSupply;
+import onlineShop.RandomAccessMemory;
+import onlineShop.SolidStateDrive;
+import onlineShop.VideoCard;
 
 public class ControllerImpl implements Controller {
 	
@@ -61,8 +71,63 @@ public class ControllerImpl implements Controller {
 	@Override
 	public String addComponent(int computerId, int id, String componentType, String manufacturer, String model,
 			double price, double overallPerformance, int generation) {
-		// TODO Auto-generated method stub
-		return null;
+		// If a component, with the same id, already exists in the components collection, 
+		//throws an IllegalArgumentException with the message "Component with this id already exists."
+		
+		Computer c = computers.stream().filter(x->x.getId()==computerId).findFirst().orElse(null);
+		if(c.equals(null)) 
+		{
+			throw new IllegalArgumentException("Computer with this id not exists.");
+		}
+		
+		for(Component comp:c.components) 
+		{
+			if(comp.getId()==id) 
+			{
+				throw new IllegalArgumentException("Component with this id already exists.");
+			}
+		}
+		
+		
+		 Component component = null;
+				
+		  if(componentType.equals("CentralProcessingUnit")) 
+		  {
+			  component = new CentralProcessingUnit( id,manufacturer,model,
+						price, overallPerformance,  generation);
+		  }
+		  else if(componentType.equals("Motherboard")) 
+		  {
+			  component = new Motherboard( id,manufacturer,model,
+						price, overallPerformance,  generation);
+		  }
+		  else if(componentType.equals("PowerSupply")) 
+		  {
+			  component = new PowerSupply( id,manufacturer,model,
+						price, overallPerformance,  generation);
+		  }
+		  else if(componentType.equals("RandomAccessMemory")) 
+		  {
+			  component = new RandomAccessMemory( id,manufacturer,model,
+						price, overallPerformance,  generation);
+		  }
+		  else if(componentType.equals("SolidStateDrive")) 
+		  {
+			  component = new SolidStateDrive( id,manufacturer,model,
+						price, overallPerformance,  generation);
+		  }
+		  else if(componentType.equals("VideoCard")) 
+		  {
+			  component = new VideoCard( id,manufacturer,model,
+						price, overallPerformance,  generation);
+		  }
+		  else {
+			  throw new IllegalArgumentException("Component type is invalid.");
+		  }
+		  
+		  c.components.add(component);
+
+		return String.format("Component %s with id %d added successfully in computer with id %d.",component.getClass().getSimpleName(),component.getId(),c.getId());
 	}
 
 	@Override
