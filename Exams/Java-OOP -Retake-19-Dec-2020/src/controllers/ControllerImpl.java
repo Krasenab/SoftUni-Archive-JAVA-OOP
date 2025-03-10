@@ -11,8 +11,13 @@ import onlineShop.CentralProcessingUnit;
 import onlineShop.Component;
 import onlineShop.Computer;
 import onlineShop.DesktopComputer;
+import onlineShop.Headset;
+import onlineShop.Keyboard;
 import onlineShop.Laptop;
+import onlineShop.Monitor;
 import onlineShop.Motherboard;
+import onlineShop.Mouse;
+import onlineShop.Peripheral;
 import onlineShop.PowerSupply;
 import onlineShop.RandomAccessMemory;
 import onlineShop.SolidStateDrive;
@@ -58,14 +63,70 @@ public class ControllerImpl implements Controller {
 	@Override
 	public String addPeripheral(int computerId, int id, String peripheralType, String manufacturer, String model,
 			double price, double overallPerformance, String connectionType) {
-		// TODO Auto-generated method stub
-		return null;
+//		Creates a peripheral, with the correct type, and adds it to the computer with that id, then adds it to the collection of peripherals in the controller.
+//		If a peripheral, with the same id, already exists in the peripherals collection, it throws an IllegalArgumentException with the message "Peripheral with this id already exists."
+//		If the peripheral type is invalid, throws an IllegalArgumentException with the message "Peripheral type is invalid."
+//		If it's successful, it returns "Peripheral {peripheral type} with id {peripheral id} added successfully in computer with id {computer id}.".
+		Computer c = getComputer(computerId);
+		if(c==null) 
+		{
+			throw new IllegalArgumentException("PC with this Id not exist");
+		}
+		
+		for(Peripheral p: c.peripherals) 
+		{
+			if(p.getId()==id) 
+			{
+				throw new IllegalArgumentException("Peripheral with this id already exists.");
+				
+			}
+		}
+		Peripheral peripheral = null;
+		if(peripheralType.equals("Headset")) 
+		{
+			peripheral = new Headset(id,manufacturer,model,price,overallPerformance,connectionType);
+		}
+		else if(peripheralType.equals("Keyboard")) 
+		{
+			
+			peripheral = new Keyboard(id,manufacturer,model,price,overallPerformance,connectionType);
+		}
+		else if(peripheralType.equals("Monitor")) 
+		{
+			peripheral = new Monitor(id,manufacturer,model,price,overallPerformance,connectionType);
+		}
+		else if(peripheralType.equals("Mouse")) 
+		{
+			peripheral = new Mouse(id,manufacturer,model,price,overallPerformance,connectionType);
+		}
+		else {
+			
+			throw new IllegalArgumentException("Peripheral type is invalid.");
+		}
+		
+		c.peripherals.add(peripheral);
+		
+		
+		return String.format("Peripheral %s with id %d added successfully in computer with id %d.",peripheralType,id,c.getId());
 	}
 
 	@Override
 	public String removePeripheral(String peripheralType, int computerId) {
-		// TODO Auto-generated method stub
-		return null;
+		//"Successfully removed {peripheral type} with id { peripheral id}.".
+		
+		Computer c = getComputer(computerId);
+		int id=0;
+		for(Peripheral p: c.peripherals) 
+		{
+			if(p.getClass().getSimpleName().equals(peripheralType)) 
+			{
+				id = p.getId();
+				c.peripherals.remove(p);
+			}
+		}
+		
+		return String.format("Successfully removed peripheralType with id %d.", peripheralType,id);
+		
 	}
 
 	@Override
@@ -132,14 +193,44 @@ public class ControllerImpl implements Controller {
 
 	@Override
 	public String removeComponent(String componentType, int computerId) {
-		// TODO Auto-generated method stub
-		return null;
+		// Removes a component, with the given type from the computer with that id, then removes component from the collection of components.
+		//If it's successful, it returns "Successfully removed {component type} with id {component id}.".
+		Computer comp = null;
+		Component compoForRemove = null;
+		Boolean isExistComputer = false;
+		for(Computer c:computers) 
+		{
+			if(computerId == c.getId()) 
+			{
+				comp = c;
+				isExistComputer = true;
+				break;
+			}
+		}
+		if(isExistComputer==false) 
+		{
+			throw new IllegalArgumentException("\"Computer with this id not exists.\"");
+		}
+		
+		for(Component compo:comp.components) 
+		{
+			if(compo.getClass().getSimpleName().equals(componentType)) 
+			{
+				compoForRemove = compo;
+				break;
+			}
+		}
+		comp.components.remove(compoForRemove);
+		
+		
+		return String.format("Successfully removed {component type} with id {component id}.",componentType,comp.getId());
 	}
 
 	@Override
 	public String buyComputer(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Computer c = getComputer(id);
+		computers.remove(c);
+		return c.toString();
 	}
 
 	@Override
@@ -152,6 +243,19 @@ public class ControllerImpl implements Controller {
 	public String getComputerData(int id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	private Computer getComputer(int computerId) 
+	{
+		Computer c = null;
+		for(Computer currentComputer:computers) 
+		{
+			if(currentComputer.getId()== computerId) 
+			{
+				return c = currentComputer;
+			}
+		}
+		return c;
 	}
 
 }
