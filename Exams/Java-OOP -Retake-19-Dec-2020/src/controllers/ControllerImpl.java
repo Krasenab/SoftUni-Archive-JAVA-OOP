@@ -115,17 +115,19 @@ public class ControllerImpl implements Controller {
 		//"Successfully removed {peripheral type} with id { peripheral id}.".
 		
 		Computer c = getComputer(computerId);
-		int id=0;
+		Peripheral pForRemove = null;
 		for(Peripheral p: c.peripherals) 
 		{
 			if(p.getClass().getSimpleName().equals(peripheralType)) 
 			{
-				id = p.getId();
-				c.peripherals.remove(p);
+				pForRemove = p;
 			}
 		}
-		
-		return String.format("Successfully removed peripheralType with id %d.", peripheralType,id);
+		if (pForRemove == null) {
+		    throw new IllegalArgumentException("Peripheral " + peripheralType + " does not exist.");
+		}
+		c.peripherals.remove(pForRemove);
+		return String.format("Successfully removed peripheralType with id.", peripheralType);
 		
 	}
 
@@ -136,7 +138,7 @@ public class ControllerImpl implements Controller {
 		//throws an IllegalArgumentException with the message "Component with this id already exists."
 		
 		Computer c = computers.stream().filter(x->x.getId()==computerId).findFirst().orElse(null);
-		if(c.equals(null)) 
+		if(c==null) 
 		{
 			throw new IllegalArgumentException("Computer with this id not exists.");
 		}
@@ -209,7 +211,7 @@ public class ControllerImpl implements Controller {
 		}
 		if(isExistComputer==false) 
 		{
-			throw new IllegalArgumentException("\"Computer with this id not exists.\"");
+			throw new IllegalArgumentException("Computer with this id not exists.");
 		}
 		
 		for(Component compo:comp.components) 
@@ -223,27 +225,47 @@ public class ControllerImpl implements Controller {
 		comp.components.remove(compoForRemove);
 		
 		
-		return String.format("Successfully removed {component type} with id {component id}.",componentType,comp.getId());
+		return String.format("Successfully removed %s with id %d.",componentType,comp.getId());
 	}
 
 	@Override
 	public String buyComputer(int id) {
+		
+
 		Computer c = getComputer(id);
+		if(c==null) 
+		{
+			throw new IllegalArgumentException("Computer with this id not exists.");
+		}
+		String result = c.toString();
 		computers.remove(c);
-		return c.toString();
+		return result;
 	}
 
 	@Override
 	public String BuyBestComputer(double budget) {
-		// TODO Auto-generated method stub
-		return null;
+//		If there are not any computers in the collection or the budget is insufficient 
+		//for any computer, throws an IllegalArgumentException with the message "Can't buy a computer with a budget of ${budget}."
+//		If it's successful, it returns toString method on the removed computer.
+		Computer pc = getBestBudgetComputer(budget);
+		if(computers.size()==0||pc==null) 
+		{
+			throw new IllegalArgumentException(String.format("Can't buy a computer with a budget of $ %d.",budget));
+		}
+		
+		
+		return pc.toString();
 	}
 
 	@Override
 	public String getComputerData(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		if(getComputer(id)==null) 
+		{
+			throw new IllegalArgumentException("Computer with this id not exists.");
+		}
+		return getComputer(id).toString();
 	}
+	
 	
 	private Computer getComputer(int computerId) 
 	{
@@ -257,5 +279,23 @@ public class ControllerImpl implements Controller {
 		}
 		return c;
 	}
-
+	private Computer getBestBudgetComputer(double budget) 
+	{
+	    double overallPerformance = Double.MIN_VALUE;
+	    Computer resultComputer = null;
+	    for(Computer c:computers) 
+	    {
+	    	
+	    	double currentCompOverallPerf = c.getOverallPreformance();
+	    	double pcPrice = c.getPrice();
+	    	if(currentCompOverallPerf>overallPerformance && pcPrice <=budget) 
+	    	{
+	    		overallPerformance = currentCompOverallPerf;
+	    		resultComputer = c;
+	    	}
+	    }
+	    
+	    return resultComputer;
+	}
+	
 }
