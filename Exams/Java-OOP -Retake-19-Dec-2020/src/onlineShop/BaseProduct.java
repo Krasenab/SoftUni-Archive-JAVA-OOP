@@ -16,6 +16,7 @@ public abstract class BaseProduct {
 		{
 			throw new IllegalArgumentException("Id can not be less or equal then zero"); 
 		}
+		this.id = id;
 	}
 	
 	public String getManufacturer() {
@@ -27,6 +28,7 @@ public abstract class BaseProduct {
 		{
 			throw new IllegalArgumentException("Manufacturer canot be empty");
 		}
+		this.manufacturer = manufacturer;
 	}
 	
 	public String getModel() {
@@ -38,6 +40,7 @@ public abstract class BaseProduct {
 		{
 			throw new IllegalArgumentException("Model can not be empty.");
 		}
+		this.model = model;
 	}
 	
 	public double getPrice() {
@@ -48,6 +51,7 @@ public abstract class BaseProduct {
 		{
 			throw new IllegalArgumentException("Price can not be less or equal than 0.");
 		}
+		this.price = price;
 	}
 	public double getOverallPreformance() {
 		return overallPreformance;

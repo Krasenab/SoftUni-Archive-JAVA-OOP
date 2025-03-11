@@ -20,8 +20,8 @@ public abstract class BaseComponent extends BaseProduct {
 	@Override
 	public String toString() 
 	{
-		return String.format("Overall Performance: {%s}. Price: {%d} - {product type}: {%s} {%d} (Id: {%d}) Generation: {%d}"
-				, this.getOverallPreformance(),this.getPrice(),this.getManufacturer(),this.getModel(),this.getId(),this.getGeneration());
+		return String.format("Overall Performance: %f. Price: %f - %s: %s %s (Id: %d)\n Generation: {%d}"
+				, this.getOverallPreformance(),this.getPrice(),this.getClass().getSimpleName(),this.getManufacturer(),this.getModel(),this.getId(),this.getGeneration());
 	}
 
 }
