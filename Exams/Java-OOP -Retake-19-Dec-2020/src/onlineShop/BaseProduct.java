@@ -57,6 +57,11 @@ public abstract class BaseProduct {
 		return overallPreformance;
 	}
 	public void setOverallPreformance(double overallPreformance) {
+		 if(overallPreformance<=0) 
+		 {
+			 
+			 throw new IllegalArgumentException("Overall Performance can not be less or equal than 0.");
+		 }
 		this.overallPreformance = overallPreformance;
 	}
 	
