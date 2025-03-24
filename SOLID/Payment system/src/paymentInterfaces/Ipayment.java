@@ -5,3 +5,4 @@ public interface Ipayment {
 	
 	public String payment(double amount);
 }
+ 
