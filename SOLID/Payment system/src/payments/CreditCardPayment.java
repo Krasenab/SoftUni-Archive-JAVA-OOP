@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+import helpPack.DateInfo;
 import paymentIntefaces.IbankCard;
 import paymentIntefaces.Ipayment;
 
@@ -22,18 +23,15 @@ public class CreditCardPayment implements Ipayment, IbankCard {
 	@Override
 	public String payment(double amount) {
 		double addedTax = amount * paymentTax;
-		double credit =+ addedTax;
+		this.credit =+ addedTax;
 		
-		LocalTime timeNow = LocalTime.now();
-		LocalDate localDate = LocalDate.now();
-		DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-		DateTimeFormatter myTimeFormatObj = DateTimeFormatter.ofPattern("HH:mm");
 		
-		return String.format("Payment done successfull with %s .\nPayed: %2.f $.\nDate: %s\nTime: %s",this.getClass().getSimpleName() ,amount ,localDate.format(myFormatObj),timeNow.format(myTimeFormatObj));
+		
+		return String.format("Payment done successfull with %s .\nPayed: %.2f $.\nDate: %s\nTime: %s",this.getClass().getSimpleName() ,amount ,DateInfo.getDate(),DateInfo.getTime());
 	}
 
 	@Override
-	public void setForntNumbers(String frontNumber) {
+	public void setForntNumbers(String frontNumber) { 
 		this.frontNumber =frontNumber;
 		
 	}
