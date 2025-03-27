@@ -1,0 +1,38 @@
+Imagine you are working as a backend developer in an IT company that maintains server systems. You need to create a logging library that will be used for diagnosing and monitoring various server processes.
+
+The system should be able to log events with different severity levels (e.g., INFO, WARNING, ERROR, CRITICAL, FATAL). Logs can be recorded either in the console or in a file in different formats (plain text, JSON, etc.).
+1. Log Format (Layouts)
+The system should support different formats for logging:
+
+SimpleLayout – Logs messages in plain text format:
+
+
+<date and time> - <level> - <message>
+JsonLayout – Logs messages in JSON format:
+
+{ "date": "<date and time>", "level": "<level>", "message": "<message>" }
+
+
+2. Logging Methods (Appenders)
+Logs can be stored in different ways:
+
+ConsoleAppender – Outputs logs to the console
+
+FileAppender – Writes logs to a file
+
+3. Event Logging (Logger)
+The main Logger should have methods for logging different levels of messages:
+
+logger.logInfo("System started successfully.");
+logger.logWarning("Low memory warning!");
+logger.logError("Database connection failed.");
+logger.logCritical("Data leak detected!");
+logger.logFatal("System crash!");
+When the Logger receives a log, it should send it to all configured Appenders.
+
+4. File System
+If logs are written to a file, a LogFile class should be used, which:
+
+Stores logs using a StringBuilder
+
+Calculates the file size by summing the ASCII values of all characters in the logs
